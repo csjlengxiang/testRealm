@@ -24,14 +24,25 @@
         NSLog(@"%@", migration.oldSchema);
         NSLog(@"%@", migration.newSchema);
         
-        if (oldSchemaVersion < 1) {
-            [migration enumerateObjects:Dog.className block:^(RLMObject *oldObject, RLMObject *newObject) {
-                
-                    // combine name fields into a single field
-                //    newObject[@"fullName"] = [NSString stringWithFormat:@"%@ %@", oldObject[@"firstName"], oldObject[@"lastName"]];
-                
-            }];
-        }
+        NSMutableArray *arr1 = [[NSMutableArray alloc] init];
+        NSMutableArray *arr2 = [[NSMutableArray alloc] init];
+        
+        [migration enumerateObjects:@"Dog" block:^(RLMObject *oldObject, RLMObject *newObject) {
+            [arr1 addObject:oldObject[@"name"]];
+            NSLog(@"%@", oldObject[@"name"]);
+        }];
+        
+        [migration enumerateObjects:@"Person" block:^(RLMObject *oldObject, RLMObject *newObject) {
+            [arr2 addObject:oldObject[@"name"]];
+            NSLog(@"%@", oldObject[@"name"]);
+        }];
+        
+        [migration createObject:@"PD" withValue:@{@"pname":[arr1 objectAtIndex:0], @"dname":[arr2 objectAtIndex:0]}];
+        
+        [migration createObject:@"PD" withValue:@{@"pname":[arr1 objectAtIndex:1], @"dname":[arr2 objectAtIndex:1]}];
+        
+        
+        
         NSLog(@"Migration complete.");
     };
     
@@ -40,29 +51,29 @@
     
     NSLog(@"%@", configuration.fileURL);
     
-    configuration.schemaVersion = 4;
+    configuration.schemaVersion = 5;
     configuration.migrationBlock = migrationBlock;
     
     [RLMRealmConfiguration setDefaultConfiguration:configuration];
     RLMRealm *realm = [RLMRealm defaultRealm];
     
-    Dog *dog1 = [[Dog alloc] init];
-    dog1.name = @"dog1";
-    Dog *dog2 = [[Dog alloc] init];
-    dog2.name = @"dog2";
-    
-    Person *person1 = [[Person alloc] init];
-    person1.name = @"person1";
-    Person *person2 = [[Person alloc] init];
-    person2.name = @"person2";
-    
-    [realm beginWriteTransaction];
-    [realm addObject:dog1];
-    [realm addObject:dog2];
-    [realm addObject:person1];
-    [realm addObject:person2];
-    [realm commitWriteTransaction];
-    
+//    Dog *dog1 = [[Dog alloc] init];
+//    dog1.name = @"dog1";
+//    Dog *dog2 = [[Dog alloc] init];
+//    dog2.name = @"dog2";
+//    
+//    Person *person1 = [[Person alloc] init];
+//    person1.name = @"person1";
+//    Person *person2 = [[Person alloc] init];
+//    person2.name = @"person2";
+//    
+//    [realm beginWriteTransaction];
+//    [realm addObject:dog1];
+//    [realm addObject:dog2];
+//    [realm addObject:person1];
+//    [realm addObject:person2];
+//    [realm commitWriteTransaction];
+//    
     NSLog(@"%@", [RLMRealmConfiguration defaultConfiguration].fileURL);
     
     return YES;

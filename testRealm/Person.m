@@ -8,11 +8,7 @@
 
 #import "Person.h"
 
-@implementation Dog
+@implementation PD
 
 @end
 
-
-@implementation Person
-
-@end

@@ -9,18 +9,27 @@
 #import <Foundation/Foundation.h>
 #import <Realm/Realm.h>
 
-@interface Dog : RLMObject
+//@interface Dog : RLMObject
+//
+//@property NSString * name;
+//
+//@end
+//
+//RLM_ARRAY_TYPE(Dog)
+//
+//@interface Person : RLMObject
+//
+//@property NSString * name;
+//
+//@end
+//
+//RLM_ARRAY_TYPE(Person)
 
-@property NSString * name;
+@interface PD : RLMObject
+
+@property NSString * pname;
+@property NSString * dname;
 
 @end
 
-RLM_ARRAY_TYPE(Dog)
-
-@interface Person : RLMObject
-
-@property NSString * name;
-
-@end
-
-RLM_ARRAY_TYPE(Person)
+RLM_ARRAY_TYPE(PD)
