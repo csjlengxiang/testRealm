@@ -24,23 +24,28 @@
         NSLog(@"%@", migration.oldSchema);
         NSLog(@"%@", migration.newSchema);
         
-        NSMutableArray *arr1 = [[NSMutableArray alloc] init];
-        NSMutableArray *arr2 = [[NSMutableArray alloc] init];
-        
-        [migration enumerateObjects:@"Dog" block:^(RLMObject *oldObject, RLMObject *newObject) {
-            [arr1 addObject:oldObject[@"name"]];
-            NSLog(@"%@", oldObject[@"name"]);
+//        NSMutableArray *arr1 = [[NSMutableArray alloc] init];
+//        NSMutableArray *arr2 = [[NSMutableArray alloc] init];
+//        
+//        [migration enumerateObjects:@"Dog" block:^(RLMObject *oldObject, RLMObject *newObject) {
+//            [arr1 addObject:oldObject[@"name"]];
+//            NSLog(@"%@", oldObject[@"name"]);
+//        }];
+//        
+//        [migration enumerateObjects:@"Person" block:^(RLMObject *oldObject, RLMObject *newObject) {
+//            [arr2 addObject:oldObject[@"name"]];
+//            NSLog(@"%@", oldObject[@"name"]);
+//        }];
+//        
+//        [migration createObject:@"PD" withValue:@{@"pname":[arr1 objectAtIndex:0], @"dname":[arr2 objectAtIndex:0]}];
+//        
+//        [migration createObject:@"PD" withValue:@{@"pname":[arr1 objectAtIndex:1], @"dname":[arr2 objectAtIndex:1]}];
+//        
+        [migration enumerateObjects:@"PD" block:^(RLMObject *oldObject, RLMObject *newObject) {
+            newObject[@"son"] = [migration createObject:@"PDson" withValue:@{@"name":@"sonxx"}];
         }];
-        
-        [migration enumerateObjects:@"Person" block:^(RLMObject *oldObject, RLMObject *newObject) {
-            [arr2 addObject:oldObject[@"name"]];
-            NSLog(@"%@", oldObject[@"name"]);
-        }];
-        
-        [migration createObject:@"PD" withValue:@{@"pname":[arr1 objectAtIndex:0], @"dname":[arr2 objectAtIndex:0]}];
-        
-        [migration createObject:@"PD" withValue:@{@"pname":[arr1 objectAtIndex:1], @"dname":[arr2 objectAtIndex:1]}];
-        
+        [migration deleteDataForClassName:@"Dog"];
+        [migration deleteDataForClassName:@"Person"];
         
         
         NSLog(@"Migration complete.");
@@ -51,7 +56,7 @@
     
     NSLog(@"%@", configuration.fileURL);
     
-    configuration.schemaVersion = 5;
+    configuration.schemaVersion = 6;
     configuration.migrationBlock = migrationBlock;
     
     [RLMRealmConfiguration setDefaultConfiguration:configuration];
