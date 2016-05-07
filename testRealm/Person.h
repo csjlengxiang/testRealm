@@ -25,19 +25,19 @@
 //
 //RLM_ARRAY_TYPE(Person)
 
-@interface PDson : RLMObject
-
-@property NSString * name;
-
-@end
-
-RLM_ARRAY_TYPE(PDson)
+//@interface PDson : RLMObject
+//
+//@property NSString * name;
+//
+//@end
+//
+//RLM_ARRAY_TYPE(PDson)
 
 @interface PD : RLMObject
 
 @property NSString * pname;
 @property NSString * dname;
-@property PDson * son;
+@property NSString * sonname;
 
 @end
 

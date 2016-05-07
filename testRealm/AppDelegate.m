@@ -41,12 +41,19 @@
 //        
 //        [migration createObject:@"PD" withValue:@{@"pname":[arr1 objectAtIndex:1], @"dname":[arr2 objectAtIndex:1]}];
 //        
-        [migration enumerateObjects:@"PD" block:^(RLMObject *oldObject, RLMObject *newObject) {
-            newObject[@"son"] = [migration createObject:@"PDson" withValue:@{@"name":@"sonxx"}];
-        }];
-        [migration deleteDataForClassName:@"Dog"];
-        [migration deleteDataForClassName:@"Person"];
+//        [migration enumerateObjects:@"PD" block:^(RLMObject *oldObject, RLMObject *newObject) {
+//            newObject[@"son"] = [migration createObject:@"PDson" withValue:@{@"name":@"sonxx"}];
+//        }];
+//        [migration deleteDataForClassName:@"Dog"];
         
+        
+        [migration enumerateObjects:@"PD" block:^(RLMObject *oldObject, RLMObject *newObject) {
+            newObject[@"sonname"] = oldObject[@"son"][@"name"];
+            
+            NSLog(@"%@", oldObject[@"son"][@"name"]);
+        }];
+        
+        [migration deleteDataForClassName:@"PDson"];
         
         NSLog(@"Migration complete.");
     };
@@ -56,7 +63,7 @@
     
     NSLog(@"%@", configuration.fileURL);
     
-    configuration.schemaVersion = 6;
+    configuration.schemaVersion = 7;
     configuration.migrationBlock = migrationBlock;
     
     [RLMRealmConfiguration setDefaultConfiguration:configuration];
